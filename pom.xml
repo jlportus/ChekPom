@@ -1,236 +1,538 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.6</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>es.mde.et.jcisat</groupId>
-	<artifactId>plantilla</artifactId>
-	<version>${version-app}</version>
-	<packaging>war</packaging>
-	<name>plantilla</name>
-	<description>Plantilla de proyecto de Springboot 2</description>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.3</version>
+    <relativePath /> <!-- lookup parent from repository -->
+  </parent>
 
-	<properties>
-		<version-app>DESARROLLO</version-app>
-		<java.version>1.8</java.version>
-		<libreria-version>[2.0.0,3.0.0)</libreria-version>
-		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8
-		</project.reporting.outputEncoding>
-		<resource.delimiter>^</resource.delimiter>
-	</properties>
+  <groupId>es.mde.et.jcisat</groupId>
+  <artifactId>atlas</artifactId>
+  <version>${version-app}</version>
+  <name>atlas</name>
+  <description>ATLAS-BACKEND</description>
+  <packaging>jar</packaging>
 
-	<dependencies>
+  <properties>
+    <java.version>17</java.version>
+    <aspectj.version>1.9.22</aspectj.version>
+    <version-app>0.0.1</version-app>
+    <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-		<!-- Biblioteca ATLAS (núcleo backend) -->
-		<dependency>
-			<groupId>es.mde.et.jcisat</groupId>
-			<artifactId>atlas</artifactId>
-			<version>${libreria-version}</version>
-		</dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <!-- Exclusión por vulnerabilidad: -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-to-slf4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.28.0-GA</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>1.10.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-envers</artifactId>
+      <!-- version gestionada por Spring Boot BOM -->
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-kernel</artifactId>
+      <version>1.8.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-adb</artifactId>
+      <version>1.8.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-transport-local</artifactId>
+      <version>1.8.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-transport-http</artifactId>
+      <version>1.8.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.activation</groupId>
+      <artifactId>javax.activation</artifactId>
+      <version>1.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml</groupId>
+      <artifactId>jaxrpc-api</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hierynomus</groupId>
+      <artifactId>smbj</artifactId>
+      <version>0.11.5</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.14.0</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.flexjson</groupId>
+      <artifactId>flexjson</artifactId>
+      <version>3.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>5.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>5.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.waffle</groupId>
+      <artifactId>waffle-jna-jakarta</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.waffle</groupId>
+      <artifactId>waffle-spring-security6</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>2.10.9.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt</artifactId>
+      <version>0.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
+    </dependency>
+    <!-- Removed vulnerable commons-beanutils 1.9.4 (HIGH severity).
+         If your project requires beanutils functionality, replace this with a patched
+         version or an alternative library after verifying a secure version is available. -->
+    <!--
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.4</version>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-hibernate6</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.openjson</groupId>
+      <artifactId>openjson</artifactId>
+      <version>1.0.12</version>
+    </dependency>
+		<!-- Eliminado hibernate-hikaricp: no necesario en Hibernate 6 con Spring Boot 3; HikariCP lo gestiona Boot -->
+    <dependency>
+      <groupId>wsdl4j</groupId>
+      <artifactId>wsdl4j</artifactId>
+      <version>1.5.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.soap</groupId>
+      <artifactId>javax.xml.soap-api</artifactId>
+      <version>1.4.0</version>
+    </dependency>
 
-		<!-- Dependencias de Spring: -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<exclusions>
-				<!-- Exclusión de Log4j por vulnerabilidad conocida: -->
-				<exclusion>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>log4j-to-slf4j</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+		<!--Propiedades del pom de la aplicacion-->
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+      <version>3.3.9</version>
+    </dependency>
 
-		<!-- Librerías de aspectos -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.junit.vintage</groupId>
+          <artifactId>junit-vintage-engine</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>0.10.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.12.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.whvcse</groupId>
+      <artifactId>easy-captcha</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>es.mde.et.jcisat</groupId>
+      <artifactId>atlas-conditioning-api</artifactId>
+      <version>1.0</version>
+    </dependency>
 
-		<!-- Librerías de serialización -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-hibernate5</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-		</dependency>
+		<!--Permite hot reload entre otras-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
 
-		<!-- Dependencia temporal para migración de SpringBoot a SpringBoot2: Indica 
-			qué propiedades ya no existen y cuáles las sustituyen -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.springframework.boot</groupId> -->
-<!-- 			<artifactId>spring-boot-properties-migrator</artifactId> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
+		<!--Proporciona ayuda en archivos de propiedades-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
 
-	</dependencies>
+		<!--Se usa para el web redirect en los fallback-->
+    <!--<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version> &lt;!&ndash; O la que uses &ndash;&gt;
+		</dependency>-->
 
-	<build>
-		<finalName>${artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.14.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.aspectj</groupId>
-						<artifactId>aspectjrt</artifactId>
-						<version>${aspectj.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.aspectj</groupId>
-						<artifactId>aspectjtools</artifactId>
-						<version>${aspectj.version}</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>test-compile</goal>
-						</goals>
-						<configuration>
-							<weaveDependencies>
-								<weaveDependency>
-									<groupId>es.mde.et.jcisat</groupId>
-									<artifactId>atlas</artifactId>
-								</weaveDependency>
-							</weaveDependencies>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<outxml>true</outxml>
-					<forceAjcCompile>true</forceAjcCompile>
-					<aspectLibraries>
-						<aspectLibrary>
-							<groupId>org.springframework</groupId>
-							<artifactId>spring-aspects</artifactId>
-						</aspectLibrary>
-					</aspectLibraries>
-					<complianceLevel>${java.version}</complianceLevel>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<!-- Aspects in src/main/java and src/main/aspects are added as default 
-						in the compile goal. Aspects in src/test/java and src/test/aspects are added 
-						as default in the test-compile goal. Aspects in src/main/java are added in 
-						the test-compile goal if weaveWithAspectsInMainSourceFolder is set to true -->
-					<weaveWithAspectsInMainSourceFolder>false
-					</weaveWithAspectsInMainSourceFolder>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-						</manifest>
-					</archive>
-					<webResources>
-						<resource>
-							<directory>src/main/resources</directory>
-						</resource>
-					</webResources>
-					<warName>plantilla</warName>
-				</configuration>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<!-- Esto solo afecta a la configuración de Eclipse para compilar ejecuciones 
-						de plugins no contempladas por el conector m2e -->
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>aspectj-maven-plugin</artifactId>
-										<versionRange>[1.0.0,)</versionRange>
-										<goals>
-											<goal>compile</goal>
-											<goal>test-compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>build.properties</include>
+          <!-- <include>app.properties</include> -->
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+
+      <!-- Resto de recursos sin filtrar -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>build.properties</exclude>
+        </excludes>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <doclint>none</doclint>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>1.14.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <Xlint>ignore</Xlint>
+          <outxml>true</outxml>
+          <forceAjcCompile>false</forceAjcCompile>
+          <aspectLibraries>
+            <aspectLibrary>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-aspects</artifactId>
+            </aspectLibrary>
+          </aspectLibraries>
+          <complianceLevel>${java.version}</complianceLevel>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <weaveWithAspectsInMainSourceFolder>true
+          </weaveWithAspectsInMainSourceFolder>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>es.mde.et.jcisat</groupId>
+        <artifactId>atlas-test-maven-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>acondicionamiento-test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Dfile.encoding=UTF-8</argLine>
+          <!-- TODO -->
+          <!--  PARA DEPURAR Y HACER STOP EN OPCIÓN DEBUG AS / MAVEN TEST -->
+          <!-- DESCOMENTAR -->
+          <!--
+          			<forkMode>never</forkMode>
+          			-->
+        </configuration>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- Esto solo afecta a la configuración de Eclipse para compilar ejecuciones 
+						de plugins no contempladas -->
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>aspectj-maven-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>compile</goal>
+                      <goal>test-compile</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute />
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>es.mde.et.jcisat</groupId>
+                    <artifactId>atlas-test-maven-plugin</artifactId>
+                    <versionRange>1.0</versionRange>
+                    <goals>
+                      <goal>acondicionamiento-test</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
+
+<!-- TODO:revisar vulnerabilidades
+
+# 1) Genera el árbol de dependencias para ver qué artefactos transitivos trae axis2-transport-http
+
+mvn -DskipTests=true dependency:tree -Dverbose -Dincludes=org.apache.axis2:axis2-transport-http >
+target/axis2-dependency-tree.txt
+
+
+
+# 2) Ejecuta un escaneo de vulnerabilidades (OWASP Dependency-Check)
+
+# Obtener una API key
+### Solicítala aquí: https://nvd.nist.gov/developers/request-an-api-key
+# Configurar la clave
+## Temporal (solo sesión actual PowerShell):
+# $env:NVD_API_KEY = 'TU_API_KEY'
+## Persistente (usuario actual):
+# setx NVD_API_KEY "TU_API_KEY"
+## O pasarla por línea de comandos:
+# mvn -Dnvd.api.key=TU_API_KEY org.owasp:dependency-check-maven:check
+
+mvn -DskipTests=true org.owasp:dependency-check-maven:check -Dformat=XML
+-DoutputDirectory=target/dependency-check-report
+
+
+
+# 3) Revisa dependencias con actualizaciones disponibles para planificar actualizaciones
+
+mvn -DskipTests=true versions:display-dependency-updates
+
+
+
+# 4) (Opcional) Si detectas una transitive vulnerable X, añade una exclusión en pom.xml o fuerza
+versión segura en dependencyManagement;
+
+#    Para identificar el grupo:artifact de la dependencia vulnerable usa el archivo
+target/axis2-dependency-tree.txt generado arriba.
+
+
+
+# Ejemplo de pasos manuales siguientes:
+
+# - Si la transitive vulnerable es group:artifact@version -> agrega en tu pom.xml una entrada en
+<dependencyManagement> con la versión segura
+
+# - O añade una <exclusions> dentro de la dependencia org.apache.axis2:axis2-transport-http para
+excluir la dependencia vulnerable y añade manualmente la dependencia segura.
+
+con OSV de google:
+
+instalar la herramienta osv-scanner (con internet)
+iwr -useb get.scoop.sh | iex
+scoop install osv-scanner
+
+crar el SBOM y escanearlo:
+mvn -DskipTests org.cyclonedx:cyclonedx-maven-plugin:2.8.0:makeAggregateBom
+
+escanearlo con: (poner dos guiones en los parámetros - -, el pom no deja ponerlos bien)
+osv-scanner -sbom .\target\bom.json -format table -output .\target\osv-scan-sbom.txt
+
+ -->
